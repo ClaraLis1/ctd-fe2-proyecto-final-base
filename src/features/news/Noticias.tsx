@@ -1,28 +1,11 @@
 import { useEffect, useState } from "react";
-import { SuscribeImage, CloseButton as Close } from "../../assets";
 import { obtenerNoticias } from "./fakeRest";
-import {
-  CloseButton,
-  TarjetaModal,
-  ContenedorModal,
-  DescripcionModal,
-  ImagenModal,
-  TituloModal,
-  TarjetaNoticia,
-  FechaTarjetaNoticia,
-  DescripcionTarjetaNoticia,
-  ImagenTarjetaNoticia,
-  TituloTarjetaNoticia,
-  ContenedorNoticias,
-  ListaNoticias,
-  TituloNoticias,
-  BotonLectura,
-  BotonSuscribir,
-  CotenedorTexto,
-} from "./styled";
+import { ContenedorNoticias, TituloNoticias} from "./styled";
 import NormalizarNoticia from "./utils/NormalizarNoticia";
 import { INoticiasNormalizadas } from "./types";
-
+import ModalPremium from "./ModalPremium";
+import ModalRegular from "./ModalRegular";
+import ListaDeNoticias from "./ListaNoticias";
 
 
 const Noticias = () => {
@@ -31,7 +14,7 @@ const Noticias = () => {
 
   /*********Principio Single responsability ********/
   /*Se crea Util para guardar los diferentes metodos */   
-     
+
   useEffect(() => {
     const obtenerInformacion = async () => {
       const respuesta = await obtenerNoticias();
@@ -41,6 +24,23 @@ const Noticias = () => {
     obtenerInformacion();
   }, []);
 
+/*Se crea Crearon distintos componentes para las diferentes responsablidades */   
+  
+return (
+  <ContenedorNoticias>
+    <TituloNoticias>Noticias de los Simpsons</TituloNoticias>
+    <ListaDeNoticias noticias={noticias} setModal={setModal} />
+    {modal && (
+      modal.esPremium ? (
+        <ModalPremium setModal={setModal} />
+      ) : (
+        <ModalRegular modal={modal} setModal={setModal} />
+      )
+    )}
+  </ContenedorNoticias>
+);
+}
+  /*
   return (
     <ContenedorNoticias>
       <TituloNoticias>Noticias de los Simpsons</TituloNoticias>
@@ -102,5 +102,7 @@ const Noticias = () => {
     </ContenedorNoticias>
   );
 };
+
+*/
 
 export default Noticias;

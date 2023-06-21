@@ -8,3 +8,9 @@ export interface INoticiasNormalizadas {
     imagen: string;
     descripcionCorta?: string;
   }
+
+
+  export interface IModal {
+    noticia: INoticiasNormalizadas | null;
+    visible: boolean;
+  }
