@@ -2,24 +2,35 @@ import {  getByRole, screen, waitFor } from "@testing-library/react"
 import { render } from "../../test-utils"
 import Cita from "./Cita"
 import  userEvent  from "@testing-library/user-event"
+import {Boton}  from "./styled"
+
 
 
 describe("Cita", ()=>{
     describe("se renderiza", ()=>{
+       it("Se renderiza el texto inicial", ()=>{
+            render(<Cita/>)
+            const text = screen.getByText("No se encontro ninguna cita")
+            expect(text).toBeInTheDocument();
+        })       
         it("input", ()=>{
             render(<Cita/>)
             const inputText = screen.getByPlaceholderText("Ingresa el nombre del autor")
             expect(inputText).toBeInTheDocument();
         })
-    })
-    describe(("texto en boton obtener"), ()=>{
-        it("Cuando el input no tiene datos se muestra el texto Obtener cita aleatoria", ()=>{
+        it("boton Obtener cita aleatoria", ()=>{
             render(<Cita/>)
-            const inputText = screen.getByPlaceholderText("Ingresa el nombre del autor")
-            expect (screen.getByText(/obtener cita aleatoria/i)            
-              ).toBeInTheDocument()
+            const botonBuscar = screen.getByText(/obtener cita aleatoria/i)
+            expect (botonBuscar).toBeInTheDocument()
         })
-        it("Ingresando in texto al input se muestra el texto Obtener Cita", ()=>{
+        it("boton Borrar", ()=>{
+            render(<Cita/>)
+            const botonBorrar = screen.getByText(/borrar/i)
+            expect (botonBorrar).toBeInTheDocument()
+        })
+    })
+    describe(("texto en boton obtener"), ()=>{       
+        it("Ingresando un texto al input se muestra el texto Obtener Cita", ()=>{
             render(<Cita/>)
             const inputText = screen.getByPlaceholderText("Ingresa el nombre del autor")
             userEvent.type(inputText, "Bart Simpson");    
@@ -28,8 +39,30 @@ describe("Cita", ()=>{
         })
     })
 
+    describe("Boton borrar", ()=>{
+        it("al presionar boton borrar se renderiza: No se encontro ninguna cita, en el input: Ingresa el nombre del autor y en el boton Obtener cita aleatoria", () =>{
+            render(<Cita/>)           
+            const botonBorrar = screen.getByRole('button', {name: /borrar/i})
+            userEvent.click(botonBorrar);  
+            expect ( screen.getByText(/No se encontro ninguna cita/i)            
+              ).toBeInTheDocument()
+            expect(screen.getByPlaceholderText(/ingresa el nombre del autor/i)).toBeInTheDocument()
+            expect(screen.getByRole('button', {name: /obtener cita aleatoria/i})).toBeInTheDocument()
+        })
+    })
+
+    /*describe("funcionalidad del boton obtener",()=>{
+        it("al hacer click en buscar se ejecuta una funcion", ()=>{
+            const mockFecth = jest.fn()
+            render(<Cita />)
+            const botonObtener = screen.getByRole('button', {name: /obtener cita aleatoria/i})
+            userEvent.click(botonObtener)
+            expect(mockFecth).toBeCalled()
+        })
+    } )*/
+
     describe(("renderizado de la cita"), ()=>{
-        it("ingresando Bart Simpson al input se muestra una cita",async () => {          
+        it("al hacer click en buscar se muestra el texto: Cargando...",async () => {          
             render(<Cita/>)
             const inputText = screen.getByPlaceholderText("Ingresa el nombre del autor")
             userEvent.type(inputText, "Bart Simpson");  
@@ -47,18 +80,6 @@ describe("Cita", ()=>{
         })        
     })
     
-    describe("Boton borrar", ()=>{
-        it("al presionar boton borrar se renderiza No se encontro ninguna cita, en el input: Ingresa el nombre del autor y en el boton Obtener cita aleatoria", async() =>{
-            render(<Cita/>)
-           
-            const botonBorrar = screen.getByRole('button', {name: /borrar/i})
-            userEvent.click(botonBorrar);  
-            expect (await screen.findByText(/No se encontro ninguna cita/i)            
-              ).toBeInTheDocument()
-            expect(screen.getByPlaceholderText(/ingresa el nombre del autor/i)).toBeInTheDocument()
-            expect(screen.getByRole('button', {name: /obtener cita aleatoria/i})).toBeInTheDocument()
-      
-        })
-    })
+   
 
 })
