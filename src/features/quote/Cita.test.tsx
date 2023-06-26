@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {  fireEvent, getByRole, screen, waitFor } from "@testing-library/react"
+import {  act, fireEvent, screen, waitFor } from "@testing-library/react"
 import { render } from "../../test-utils"
 import Cita from "./Cita"
 import  userEvent  from "@testing-library/user-event"
@@ -70,19 +70,19 @@ describe("Cita", ()=>{
         })
     })
 
-    describe("Ingresando un valor numerico al input", () => {         
+   describe("Ingresando un valor numerico al input", () => {         
         it("se debe mostrar el mensaje Por favor ingrese un nombre válido", async () => {           
-            renderComponent()
-           const inputText = await screen.findByPlaceholderText('Ingresa el nombre del autor')
-           await userEvent.clear(inputText);
-           fireEvent.change(inputText, { target: { value: '1' } });
-           const botonBuscar = await screen.findByLabelText(/obtener cita/i)
-           userEvent.click(botonBuscar);
-           await waitFor(() =>{             
-             expect(screen.getByText('Por favor ingrese un nombre válido') ).toBeInTheDocument();
+           renderComponent();
+            const inputText = await screen.findByPlaceholderText('Ingresa el nombre del autor')
+            fireEvent.change(inputText, { target: { value: '1' } })           
+            const botonBuscar = screen.getByRole("button", {name:/obtener cita/i})
+            userEvent.click(botonBuscar);
+             await waitFor(()=>{
+                expect(screen.getByText('Por favor ingrese un nombre válido')).toBeInTheDocument();
+               
            })
             
-        })
+        })      
     })
 
     describe("Boton borrar", ()=>{
@@ -115,7 +115,8 @@ describe("Cita", ()=>{
         
         it('Se renderiza cita al azar', async()=>{
             renderComponent()
-            const botonBuscar = await screen.findByLabelText(/obtener cita aleatoria/i)
+            // const botonBuscar = await screen.findByLabelText(/obtener cita aleatoria/i)
+            const botonBuscar = screen.getByRole("button", {name : /obtener cita aleatoria/i})
             userEvent.click(botonBuscar);
             await waitFor(() =>{
                 screen.debug()
@@ -135,6 +136,8 @@ describe("Cita", ()=>{
               expect(screen.getByText(/I hope I didn't brain my damage./i)).toBeInTheDocument();
             })
          })
+
+        
     })     
  
 
