@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import {  act, fireEvent, screen, waitFor } from "@testing-library/react"
+import {  fireEvent, screen, waitFor } from "@testing-library/react"
 import { render } from "../../test-utils"
 import Cita from "./Cita"
 import  userEvent  from "@testing-library/user-event"
@@ -16,10 +16,12 @@ const data = [
     }
 ]
 
+const dataError : String[]= []
 export const handlers = [
     rest.get(url, (req, res, ctx) => {
         return res(ctx.json(data), ctx.status(200));
     }),
+   
 ];
 
 const server = setupServer(...handlers);
@@ -74,11 +76,11 @@ describe("Cita", ()=>{
         it("se debe mostrar el mensaje Por favor ingrese un nombre válido", async () => {           
            renderComponent();
             const inputText = await screen.findByPlaceholderText('Ingresa el nombre del autor')
-            fireEvent.change(inputText, { target: { value: '1' } })           
+            fireEvent.change(inputText, { target: { value: '5' } })           
             const botonBuscar = screen.getByRole("button", {name:/obtener cita/i})
             userEvent.click(botonBuscar);
              await waitFor(()=>{
-                expect(screen.getByText('Por favor ingrese un nombre válido')).toBeInTheDocument();
+                expect(screen.getByText(/Por favor ingrese un nombre válido/i)).toBeInTheDocument();
                
            })
             
@@ -109,6 +111,7 @@ describe("Cita", ()=>{
             const botonBuscar = await screen.findByLabelText(/obtener cita aleatoria/i)
             userEvent.click(botonBuscar);
             await waitFor(() =>{
+                // screen.debug()
                 expect (screen.getByText(/cargando/i)).toBeInTheDocument()                
             })
         });
@@ -119,7 +122,7 @@ describe("Cita", ()=>{
             const botonBuscar = screen.getByRole("button", {name : /obtener cita aleatoria/i})
             userEvent.click(botonBuscar);
             await waitFor(() =>{
-                screen.debug()
+                // screen.debug()
               expect(screen.getByText(/I hope I didn't brain my damage./i)).toBeInTheDocument();
             })
          })
@@ -137,6 +140,23 @@ describe("Cita", ()=>{
             })
          })
 
+         it("cuando la petición falla", async ()=>{
+            const personaje = "Hoomer"
+            server.use(
+                rest.get(url+"?character="+personaje, (req, res, ctx) => {
+                    return res(ctx.json(dataError), ctx.status(200));
+                }),
+            )
+            renderComponent();
+            const inputText = await screen.findByPlaceholderText(/Ingresa el nombre del autor/i)
+            fireEvent.change(inputText, { target: { value: personaje } })           
+            const botonBuscar = screen.getByRole("button", {name:/obtener cita/i})
+            userEvent.click(botonBuscar);  
+            screen.debug()           
+            await waitFor(() =>{                          
+                expect(screen.getByText(/Por favor ingrese un nombre válido/i)).toBeInTheDocument();
+              })
+         })
         
     })     
  
