@@ -1,5 +1,4 @@
 
-import { INoticias } from "./fakeRest";
 import {
     CloseButton,
     TarjetaModal,
@@ -7,20 +6,10 @@ import {
     DescripcionModal,
     ImagenModal,
     TituloModal,
-    TarjetaNoticia,
-    FechaTarjetaNoticia,
-    DescripcionTarjetaNoticia,
-    ImagenTarjetaNoticia,
-    TituloTarjetaNoticia,
-    ContenedorNoticias,
-    ListaNoticias,
-    TituloNoticias,
-    BotonLectura,
-    BotonSuscribir,
     CotenedorTexto,
   } from "./styled";
-import { IModal, INoticiasNormalizadas } from "./types";
-import { SuscribeImage, CloseButton as Close } from "../../assets";
+import { INoticiasNormalizadas } from "./types";
+import { CloseButton as Close } from "../../assets";
 
   
 interface ModalRegularProps {

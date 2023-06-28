@@ -6,6 +6,7 @@ import Cita from "./Cita"
 import  userEvent  from "@testing-library/user-event"
 
 const url = "https://thesimpsonsquoteapi.glitch.me/quotes"
+const urlPersonaje = "https://thesimpsonsquoteapi.glitch.me/quotes?character="
 
 const data = [
     {
@@ -17,6 +18,7 @@ const data = [
 ]
 
 const dataError : String[]= []
+
 export const handlers = [
     rest.get(url, (req, res, ctx) => {
         return res(ctx.json(data), ctx.status(200));
@@ -143,7 +145,7 @@ describe("Cita", ()=>{
          it("cuando la petición falla", async ()=>{
             const personaje = "Hoomer"
             server.use(
-                rest.get(url+"?character="+personaje, (req, res, ctx) => {
+                rest.get(urlPersonaje+personaje, (req, res, ctx) => {
                     return res(ctx.json(dataError), ctx.status(200));
                 }),
             )
@@ -152,7 +154,7 @@ describe("Cita", ()=>{
             fireEvent.change(inputText, { target: { value: personaje } })           
             const botonBuscar = screen.getByRole("button", {name:/obtener cita/i})
             userEvent.click(botonBuscar);  
-            screen.debug()           
+            // screen.debug()           
             await waitFor(() =>{                          
                 expect(screen.getByText(/Por favor ingrese un nombre válido/i)).toBeInTheDocument();
               })

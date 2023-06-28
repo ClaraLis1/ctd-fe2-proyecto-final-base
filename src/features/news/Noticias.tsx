@@ -6,11 +6,14 @@ import { INoticiasNormalizadas } from "./types";
 import ModalPremium from "./ModalPremium";
 import ModalRegular from "./ModalRegular";
 import ListaDeNoticias from "./ListaNoticias";
+import { log } from "console";
 
 
 const Noticias = () => {
   const [noticias, setNoticias] = useState<INoticiasNormalizadas[]>([]);
   const [modal, setModal] = useState<INoticiasNormalizadas | null>(null);
+  console.log(modal);
+  
 
   /*********Principio Single responsability ********/
   /*Se crea Util para guardar los diferentes metodos */   

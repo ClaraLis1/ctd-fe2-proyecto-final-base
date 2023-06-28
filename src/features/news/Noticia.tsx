@@ -16,6 +16,7 @@ interface NoticiaProps {
   }
 
 const Noticia : React.FC<NoticiaProps>= ({ noticia, setModal }) => {
+  
     return (
       <TarjetaNoticia>
         <ImagenTarjetaNoticia src={noticia.imagen} />

@@ -1,5 +1,4 @@
 
-import { INoticias } from "./fakeRest";
 import { SuscribeImage, CloseButton as Close } from "../../assets";
 import {
     CloseButton,
@@ -7,16 +6,7 @@ import {
     ContenedorModal,
     DescripcionModal,
     ImagenModal,
-    TituloModal,
-    TarjetaNoticia,
-    FechaTarjetaNoticia,
-    DescripcionTarjetaNoticia,
-    ImagenTarjetaNoticia,
-    TituloTarjetaNoticia,
-    ContenedorNoticias,
-    ListaNoticias,
-    TituloNoticias,
-    BotonLectura,
+    TituloModal,    
     BotonSuscribir,
     CotenedorTexto,
   } from "./styled";
