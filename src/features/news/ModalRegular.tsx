@@ -8,13 +8,13 @@ import {
     TituloModal,
     CotenedorTexto,
   } from "./styled";
-import { INoticiasNormalizadas } from "./types";
+import { INoticiasStandarizada } from "./types";
 import { CloseButton as Close } from "../../assets";
 
   
 interface ModalRegularProps {
-    modal: INoticiasNormalizadas;
-    setModal: (noticia: INoticiasNormalizadas | null) => void;
+    modal: INoticiasStandarizada;
+    setModal: (noticia: INoticiasStandarizada | null) => void;
   }
 
 const ModalRegular : React.FC<ModalRegularProps> = ({ modal, setModal }) => {

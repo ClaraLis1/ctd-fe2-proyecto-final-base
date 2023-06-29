@@ -1,5 +1,5 @@
 
-export interface INoticiasNormalizadas {
+export interface INoticiasStandarizada {
     id: number;
     titulo: string;
     descripcion: string;
@@ -11,6 +11,6 @@ export interface INoticiasNormalizadas {
 
 
   export interface IModal {
-    noticia: INoticiasNormalizadas | null;
+    noticia: INoticiasStandarizada | null;
     visible: boolean;
   }

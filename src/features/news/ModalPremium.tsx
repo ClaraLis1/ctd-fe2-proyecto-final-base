@@ -10,10 +10,10 @@ import {
     BotonSuscribir,
     CotenedorTexto,
   } from "./styled";
-import { INoticiasNormalizadas } from "./types";
+import { INoticiasStandarizada } from "./types";
 
   interface ModalPremiumProps {
-    setModal: (noticia: INoticiasNormalizadas | null) => void;
+    setModal: (noticia: INoticiasStandarizada | null) => void;
   }
 
 const ModalPremium: React.FC<ModalPremiumProps>  = ({ setModal }) => {

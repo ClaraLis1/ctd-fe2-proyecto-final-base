@@ -3,7 +3,7 @@ import CalcularMinutos from "./CalcularMinutos";
 import PasarAMayusculas from "./PasarAMayusculas";
 
 
-const NormalizarNoticia = (noticia:INoticias) => {
+const StandarizarNoticia = (noticia:INoticias) => {
     const titulo = PasarAMayusculas(noticia);
     const minutosTranscurridos = CalcularMinutos(noticia);    
     return {
@@ -17,4 +17,4 @@ const NormalizarNoticia = (noticia:INoticias) => {
     };
   };
 
-  export default NormalizarNoticia;
+  export default StandarizarNoticia;

@@ -4,27 +4,61 @@ import {  fireEvent, screen, waitFor } from "@testing-library/react"
 import { render } from "../../test-utils"
 import Cita from "./Cita"
 import  userEvent  from "@testing-library/user-event"
+import { API_URL } from "../../app/constants";
 
-const url = "https://thesimpsonsquoteapi.glitch.me/quotes"
-const urlPersonaje = "https://thesimpsonsquoteapi.glitch.me/quotes?character="
 
-const data = [
+
+const mockedData = [
+    {   
+        query:'homer',
+        data: {
+            quote: "I hope I didn't brain my damage.",
+            character: "Homer Simpson",
+            image: "https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FHomerSimpson.png?1497567511939",
+            characterDirection: "Right"
+        },
+    },
+    {   
+        query:'bart',
+       data:{
+            "quote": "Nothing you say can upset us. We're the MTV generation.",
+            "character": "Bart Simpson",
+            "image": "https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FBartSimpson.png?1497567511638",
+            "characterDirection": "Right"
+        },
+    },
     {
-        quote: "I hope I didn't brain my damage.",
-        character: "Homer Simpson",
-        image: "https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FHomerSimpson.png?1497567511939",
-        characterDirection: "Right"
+        query: 'marge',
+        data: {
+            "quote": "I don't want to sound like a killjoy, but becuase this is not to my taste I don't think anyone else should be allowed to enjoy it.",
+            "character": "Marge Simpson",
+            "image": "https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FMargeSimpson.png?1497567512205",
+            "characterDirection": "Right"
+        },
     }
+
 ]
 
-const dataError : String[]= []
 
-export const handlers = [
-    rest.get(url, (req, res, ctx) => {
-        return res(ctx.json(data), ctx.status(200));
+
+const validQueries = mockedData.map((q)=>q.query)
+
+const handlers = [
+    rest.get(`${API_URL}`, (req, res, ctx) => {
+      const character = req.url.searchParams.get('character');
+  
+      if (character === null) {
+        return res(ctx.json([mockedData[2].data]), ctx.delay(150));
+      }
+  
+      if (validQueries.includes(character)) {
+        const quote = mockedData.find((q) => q.query === character);
+        return res(ctx.json([quote?.data]));
+      }
+  
+      return res(ctx.json([]), ctx.delay(150));
     }),
-   
-];
+  ];
 
 const server = setupServer(...handlers);
 
@@ -124,8 +158,8 @@ describe("Cita", ()=>{
             const botonBuscar = screen.getByRole("button", {name : /obtener cita aleatoria/i})
             userEvent.click(botonBuscar);
             await waitFor(() =>{
-                // screen.debug()
-              expect(screen.getByText(/I hope I didn't brain my damage./i)).toBeInTheDocument();
+            //  screen.debug()
+              expect(screen.getByText(/I don't want to sound like a killjoy/i)).toBeInTheDocument();
             })
          })
 
@@ -136,19 +170,13 @@ describe("Cita", ()=>{
             await userEvent.clear(inputText);
             await userEvent.type(inputText, "homer")            
             userEvent.click(botonBuscar);
-            await waitFor(() =>{
-            
+            await waitFor(() =>{            
               expect(screen.getByText(/I hope I didn't brain my damage./i)).toBeInTheDocument();
             })
          })
 
-         it("cuando la petición falla", async ()=>{
-            const personaje = "Hoomer"
-            server.use(
-                rest.get(urlPersonaje+personaje, (req, res, ctx) => {
-                    return res(ctx.json(dataError), ctx.status(200));
-                }),
-            )
+         it("Se ingresa un personaje inexistente", async ()=>{
+            const personaje = "rick"           
             renderComponent();
             const inputText = await screen.findByPlaceholderText(/Ingresa el nombre del autor/i)
             fireEvent.change(inputText, { target: { value: personaje } })           
@@ -160,7 +188,5 @@ describe("Cita", ()=>{
               })
          })
         
-    })     
- 
-
+    })   
 })

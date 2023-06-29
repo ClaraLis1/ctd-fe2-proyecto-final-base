@@ -1,10 +1,10 @@
 import Noticia from "./Noticia";
 import { ListaNoticias } from "./styled";
-import { INoticiasNormalizadas } from "./types";
+import { INoticiasStandarizada } from "./types";
 
 interface ListaNoticiasProps {
-    noticias: INoticiasNormalizadas[];
-    setModal: (noticia: INoticiasNormalizadas| null) => void;
+    noticias: INoticiasStandarizada[];
+    setModal: (noticia: INoticiasStandarizada| null) => void;
   }
   
 

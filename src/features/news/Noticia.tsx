@@ -7,16 +7,15 @@ import {
     TituloTarjetaNoticia, 
     BotonLectura,   
   } from "./styled";
-import { INoticiasNormalizadas } from "./types";
+import { INoticiasStandarizada } from "./types";
 
   
 interface NoticiaProps {
-    noticia: INoticiasNormalizadas;
-    setModal: (noticia: INoticiasNormalizadas | null) => void;
+    noticia: INoticiasStandarizada;
+    setModal: (noticia: INoticiasStandarizada | null) => void;
   }
 
 const Noticia : React.FC<NoticiaProps>= ({ noticia, setModal }) => {
-  
     return (
       <TarjetaNoticia>
         <ImagenTarjetaNoticia src={noticia.imagen} />
