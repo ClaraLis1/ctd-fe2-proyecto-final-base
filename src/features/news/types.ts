@@ -1,4 +1,3 @@
-
 export interface INoticiasStandarizada {
     id: number;
     titulo: string;

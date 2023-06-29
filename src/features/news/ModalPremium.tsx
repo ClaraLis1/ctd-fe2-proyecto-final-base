@@ -1,4 +1,3 @@
-
 import { SuscribeImage, CloseButton as Close } from "../../assets";
 import {
     CloseButton,

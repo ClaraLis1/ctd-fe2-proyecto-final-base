@@ -5,8 +5,7 @@ import { INoticiasStandarizada } from "./types";
 interface ListaNoticiasProps {
     noticias: INoticiasStandarizada[];
     setModal: (noticia: INoticiasStandarizada| null) => void;
-  }
-  
+  }  
 
 const ListaDeNoticias: React.FC<ListaNoticiasProps> = ({ noticias, setModal }) => {
     return (

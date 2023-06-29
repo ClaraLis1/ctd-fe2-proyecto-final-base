@@ -2,7 +2,6 @@ import { INoticias } from "../fakeRest";
 import CalcularMinutos from "./CalcularMinutos";
 import PasarAMayusculas from "./PasarAMayusculas";
 
-
 const StandarizarNoticia = (noticia:INoticias) => {
     const titulo = PasarAMayusculas(noticia);
     const minutosTranscurridos = CalcularMinutos(noticia);    

@@ -1,4 +1,4 @@
-import { INoticias } from "./fakeRest";
+
 import {   
     TarjetaNoticia,
     FechaTarjetaNoticia,
