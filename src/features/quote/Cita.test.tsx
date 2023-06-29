@@ -39,8 +39,6 @@ const mockedData = [
 
 ]
 
-
-
 const validQueries = mockedData.map((q)=>q.query)
 
 const handlers = [
